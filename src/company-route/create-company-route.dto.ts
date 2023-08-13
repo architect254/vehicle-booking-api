@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsDateString, IsInt } from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, IsArray, ValidateNested } from 'class-validator';
+import { VehicleRoute } from 'src/vehicle-route/vehicle-route.entity';
 
 export class CreateCompanyRouteDto {
   @IsString()

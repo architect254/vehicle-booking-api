@@ -11,7 +11,7 @@ import {
 import { User } from '../user/user.entity';
 
 export abstract class AbstractEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id?: number;
 
   @CreateDateColumn()

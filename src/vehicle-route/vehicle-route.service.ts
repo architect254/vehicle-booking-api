@@ -54,7 +54,7 @@ export class VehicleRouteService {
   async readAll(page: number, pageSize: number): Promise<VehicleRoute[]> {
     const skip: number = pageSize * (page - 1);
 
-    return await this.vehicleRouteRepo.find({ skip, take: pageSize });
+    return await this.vehicleRouteRepo.find({ skip: 10, take: pageSize });
   }
 
   async update(
