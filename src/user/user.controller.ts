@@ -8,8 +8,6 @@ import {
   Put,
   Delete,
   UseGuards,
-  UseInterceptors,
-  UploadedFile,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -22,7 +20,6 @@ import { UpdateUserDto } from './update-user.dto';
 import { User } from './user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateUserDto } from './create-user.dto';
-import { CompanyService } from 'src/company/company.service';
 
 // let storage = {
 //   storage: diskStorage({
@@ -41,7 +38,6 @@ import { CompanyService } from 'src/company/company.service';
 export class UserController {
   constructor(
     private userService: UserService,
-    private companyService: CompanyService,
   ) {}
 
   @Post()
@@ -49,8 +45,7 @@ export class UserController {
     @Body() payload: CreateUserDto,
     @GetUser() currentUser: User,
   ) {
-    const company = await this.companyService.read(payload.companyId);
-    return await this.userService.create(payload, company, currentUser);
+    return await this.userService.create(payload, currentUser);
   }
 
   @Get('/:id')

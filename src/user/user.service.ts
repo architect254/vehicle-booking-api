@@ -11,7 +11,6 @@ import { compare, hash, genSalt } from 'bcrypt';
 import { User } from './user.entity';
 import { CreateUserDto } from './create-user.dto';
 import { UpdateUserDto } from './update-user.dto';
-import { Company } from 'src/company/company.entity';
 
 @Injectable()
 export class UserService {
@@ -22,15 +21,12 @@ export class UserService {
 
   async create(
     credentials: CreateUserDto,
-    userCompany: Company,
     currentUser: User,
   ): Promise<string> {
     const user = new User();
 
     Object.assign(user, credentials);
 
-    user.company = userCompany;
-    user.companyId = credentials.companyId;
     user.createdBy = currentUser;
     user.updatedBy = currentUser;
 
@@ -65,7 +61,6 @@ export class UserService {
     return await this.userRepo.find({
       skip: 10,
       take: pageSize,
-      relations: ['company'],
     });
   }
 

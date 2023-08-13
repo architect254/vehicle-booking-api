@@ -2,9 +2,7 @@ import {
   IsNotEmpty,
   IsString,
   IsEmail,
-  IsDate,
   IsEnum,
-  IsNumber,
 } from 'class-validator';
 import { UserRole } from './user.entity';
 
@@ -21,7 +19,4 @@ export class CreateUserDto {
   @IsEnum(UserRole)
   role: UserRole;
 
-  @IsNumber()
-  @IsNotEmpty()
-  companyId: string;
 }
