@@ -19,7 +19,6 @@ import { UserService } from './user/user.service';
 import { UserRole } from './user/user.entity';
 import { CompanyService } from './company/company.service';
 import { Company } from './company/company.entity';
-import { CompanyRouteController } from './company-route/company-route.controller';
 
 @Module({
   imports: [
@@ -27,7 +26,6 @@ import { CompanyRouteController } from './company-route/company-route.controller
     AuthModule,
     UserModule,
     CompanyModule,
-    CompanyRouteController,
     VehicleModule,
     VehicleRouteModule,
   ],

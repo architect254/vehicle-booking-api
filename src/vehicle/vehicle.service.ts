@@ -51,7 +51,7 @@ export class VehicleService {
   async readAll(page: number, pageSize: number): Promise<Vehicle[]> {
     const skip: number = pageSize * (page - 1);
 
-    return await this.vehicleRepo.find({ skip, take: pageSize });
+    return await this.vehicleRepo.find({ skip: 10, take: pageSize });
   }
 
   async update(

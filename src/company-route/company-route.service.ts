@@ -54,7 +54,7 @@ export class CompanyRouteService {
   async readAll(page: number, pageSize: number): Promise<CompanyRoute[]> {
     const skip: number = pageSize * (page - 1);
 
-    return await this.companyRoute.find({ skip, take: pageSize });
+    return await this.companyRouteRepo.find({ skip: 10, take: pageSize });
   }
 
   async update(

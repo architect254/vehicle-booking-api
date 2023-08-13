@@ -42,7 +42,7 @@ export class AuthService {
 
   async signIn(credentials: SignInCredentialsDto) {
     const { email, password } = credentials;
-    const user = await this.userRepo.findOne({ email });
+    const user = await this.userRepo.findOne({where:{email}});
     if (!user) {
       throw new NotFoundException('User not found');
     }
