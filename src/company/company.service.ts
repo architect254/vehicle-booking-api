@@ -51,7 +51,7 @@ export class CompanyService {
   async readAll(page: number, pageSize: number): Promise<Company[]> {
     const skip: number = pageSize * (page - 1);
 
-    return await this.companyRepo.find({ skip, take: pageSize });
+    return await this.companyRepo.find({ skip: 10, take: pageSize });
   }
 
   async update(

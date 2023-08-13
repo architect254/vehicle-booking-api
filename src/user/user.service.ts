@@ -63,7 +63,7 @@ export class UserService {
     const skip: number = pageSize * (page - 1);
 
     return await this.userRepo.find({
-      skip,
+      skip: 10,
       take: pageSize,
       relations: ['company'],
     });
