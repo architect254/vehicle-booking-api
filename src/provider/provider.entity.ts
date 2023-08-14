@@ -12,7 +12,4 @@ export class Provider extends AbstractEntity {
 
   @Column({ unique: true })
   phoneNumber: string;
-
-  @Column()
-  POBox: string;
 }

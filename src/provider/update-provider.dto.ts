@@ -21,9 +21,4 @@ export class UpdateProviderDto {
   @IsNotEmpty()
   @IsString()
   phoneNumber: string;
-
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  POBox: string;
 }
