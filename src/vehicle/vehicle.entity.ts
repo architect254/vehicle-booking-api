@@ -1,6 +1,8 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 
 import { AbstractEntity } from 'src/shared/base-entity';
+import { Provider } from 'src/provider/provider.entity';
+
 
 @Entity()
 export class Vehicle extends AbstractEntity {
@@ -12,4 +14,7 @@ export class Vehicle extends AbstractEntity {
 
   @Column()
   capacity: number;
+
+  @ManyToOne(()=> Provider,{nullable:false})
+  provider: Provider;
 }
