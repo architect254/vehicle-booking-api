@@ -12,8 +12,4 @@ export class CreateProviderDto {
   @IsNotEmpty()
   @IsString()
   phoneNumber: string;
-
-  @IsNotEmpty()
-  @IsString()
-  POBox: string;
 }
