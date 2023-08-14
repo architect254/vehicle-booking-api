@@ -24,5 +24,5 @@ export class VehicleRoute extends AbstractEntity {
   departureTime: Date;
 
   @ManyToOne(()=> Vehicle,{nullable:false})
-  provider: Vehicle;
+  vehicle: Vehicle;
 }
