@@ -17,6 +17,7 @@ import { VehicleModule } from './vehicle/vehicle.module';
 import { VehicleRouteModule } from './vehicle-route/vehicle-route.module';
 import { UserService } from './user/user.service';
 import { UserRole } from './user/user.entity';
+import { AgentModule } from './agent/agent.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserRole } from './user/user.entity';
     AuthModule,
     UserModule,
     ProviderModule,
+    AgentModule,
     VehicleModule,
     VehicleRouteModule,
   ],
