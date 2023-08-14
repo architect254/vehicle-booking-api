@@ -19,9 +19,4 @@ export class CreateVehicleDto {
   @IsString()
   @IsNotEmpty()
   capacity: string;
-
-  @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => VehicleRoute)
-  authParameters: VehicleRoute[];
 }
