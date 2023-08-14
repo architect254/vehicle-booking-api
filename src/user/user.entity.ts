@@ -1,21 +1,17 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  JoinColumn,
-  ManyToOne,
 } from 'typeorm';
 
 import { Exclude } from 'class-transformer';
 
 import { AbstractEntity } from 'src/shared/base-entity';
-import { Company } from 'src/company/company.entity';
 
 export enum UserRole {
+  SYSTEM = 'System',
   ADMIN = 'Admin',
-  COMPANY_MANAGER = 'Company Manager',
-  VEHICLE_MANAGER = 'Vehicle Manager',
+  AGENT = 'Agent',
+  BASIC = 'Basic',
 }
 
 @Entity('users')
@@ -26,16 +22,10 @@ export class User extends AbstractEntity {
   @Column({ unique: true })
   email: string;
 
-  @ManyToOne(() => Company, { nullable: true })
-  company: Company;
-
-  @Column({ nullable: true })
-  companyId: string;
-
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.VEHICLE_MANAGER,
+    default: UserRole.BASIC,
   })
   role: UserRole;
 

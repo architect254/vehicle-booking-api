@@ -3,7 +3,7 @@ import { Entity, Column } from 'typeorm';
 import { AbstractEntity } from 'src/shared/base-entity';
 
 @Entity()
-export class Company extends AbstractEntity {
+export class Provider extends AbstractEntity {
   @Column()
   name: string;
 

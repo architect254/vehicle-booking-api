@@ -2,7 +2,6 @@ import { Type } from 'class-transformer';
 import {
   IsNotEmpty,
   IsString,
-  IsEmail,
   ValidateNested,
   IsArray,
 } from 'class-validator';

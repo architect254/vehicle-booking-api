@@ -7,7 +7,7 @@ import { AppService } from './app.service';
 
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { CompanyModule } from './company/company.module';
+import { ProviderModule } from './provider/provider.module';
 
 import { typeOrmConfig } from './config/typeorm.config';
 
@@ -17,15 +17,13 @@ import { VehicleModule } from './vehicle/vehicle.module';
 import { VehicleRouteModule } from './vehicle-route/vehicle-route.module';
 import { UserService } from './user/user.service';
 import { UserRole } from './user/user.entity';
-import { CompanyService } from './company/company.service';
-import { Company } from './company/company.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     UserModule,
-    CompanyModule,
+    ProviderModule,
     VehicleModule,
     VehicleRouteModule,
   ],
@@ -45,34 +43,17 @@ import { Company } from './company/company.entity';
 export class AppModule implements OnApplicationBootstrap {
   constructor(
     private userService: UserService,
-    private companyService: CompanyService,
   ) {}
   async onApplicationBootstrap() {
     const users = await this.userService.readAll(undefined, undefined);
 
     if (!users || users.length == 0) {
-      await this.companyService.create(
+      await this.userService.create(
         {
           name: `SYSTEM`,
           email: `official.jared.bada@gmail.com`,
-          phoneNumber: `0790101667`,
-          POBox: `2406 Mombasa`,
+          role: UserRole.SYSTEM
         },
-        null,
-      );
-      const companies: Company[] = await this.companyService.readAll(
-        undefined,
-        undefined,
-      );
-
-      await this.userService.create(
-        {
-          name: `admin`,
-          email: `official.jared.bada@gmail.com`,
-          role: UserRole.ADMIN,
-          companyId: null,
-        },
-        companies[1],
         null,
       );
     }

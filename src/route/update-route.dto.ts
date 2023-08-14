@@ -8,7 +8,7 @@ import {
   IsNumber,
 } from 'class-validator';
 
-export class UpdateCompanyRouteDto {
+export class UpdateRouteDto {
   @IsOptional()
   @IsString()
   @IsNotEmpty()

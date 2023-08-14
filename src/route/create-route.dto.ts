@@ -2,7 +2,7 @@ import { Type } from 'class-transformer';
 import { IsNotEmpty, IsString, IsInt, IsArray, ValidateNested } from 'class-validator';
 import { VehicleRoute } from 'src/vehicle-route/vehicle-route.entity';
 
-export class CreateCompanyRouteDto {
+export class CreateRouteDto {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -13,7 +13,7 @@ export class CreateCompanyRouteDto {
   order: number;
 }
 
-export class CreateCompanyRoutesDto {
+export class CreateRoutesDto {
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => VehicleRoute)
