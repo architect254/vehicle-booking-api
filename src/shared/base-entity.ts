@@ -1,14 +1,6 @@
-import {
-  CreateDateColumn,
-  UpdateDateColumn,
-  JoinColumn,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  Column,
-  BeforeInsert,
-} from 'typeorm';
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Column } from "typeorm";
 
-import { User } from '../user/user.entity';
+import { User } from "../feature/user/user.entity";
 
 export abstract class AbstractEntity {
   @PrimaryGeneratedColumn('uuid')
