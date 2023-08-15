@@ -1,46 +1,25 @@
-import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { Module, OnApplicationBootstrap } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, OnApplicationBootstrap } from "@nestjs/common";
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { CoreModule } from './core/core.module';
+import { FeatureModule } from "./feature/feature.module";
 
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { ProviderModule } from './provider/provider.module';
+import { AppController } from "./app.controller";
 
-import { typeOrmConfig } from './config/typeorm.config';
+import { AppService } from "./app.service";
+import { UserService } from "./feature/user/user.service";
 
-import { HttpErrorFilter } from './shared/http-error.filter';
-import { LoggingInterceptor } from './shared/logging.interceptor';
-import { VehicleModule } from './vehicle/vehicle.module';
-import { VehicleRouteModule } from './vehicle-route/vehicle-route.module';
-import { UserService } from './user/user.service';
-import { UserRole } from './user/user.entity';
-import { AgentModule } from './agent/agent.module';
+import { UserRole } from "./shared/user.role";
+
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(typeOrmConfig),
-    AuthModule,
-    UserModule,
-    ProviderModule,
-    AgentModule,
-    VehicleModule,
-    VehicleRouteModule,
+    CoreModule,
+    FeatureModule,
   ],
   controllers: [AppController],
-  providers: [
+  providers:[
     AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpErrorFilter,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
-  ],
+  ]
 })
 export class AppModule implements OnApplicationBootstrap {
   constructor(
