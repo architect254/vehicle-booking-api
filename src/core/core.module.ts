@@ -6,13 +6,17 @@ import { PassportModule } from '@nestjs/passport';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { HttpErrorFilter } from './http-error.filter';
-import { LoggingInterceptor } from './logging.interceptor';
-import { JwtStrategy } from './jwt.strategy';
+import { typeOrmConfig } from '../shared/config/typeorm.config';
+
 
 import * as config from 'config';
-import { typeOrmConfig } from '../feature/config/typeorm.config';
-import { User } from 'src/feature/user/user.entity';
+
+import { HttpErrorFilter } from './http-error.filter';
+import { JwtStrategy } from './jwt.strategy';
+import { LoggingInterceptor } from './logging.interceptor';
+
+import { User } from '../shared/user/user.entity';
+import { UserService } from './user.service';
 
 const jwtConfig = config.get('jwt');
 
@@ -27,19 +31,20 @@ const jwtConfig = config.get('jwt');
         },
       }),
       TypeOrmModule.forRoot(typeOrmConfig),
-      TypeOrmModule.forFeature([User]),
+      TypeOrmModule.forFeature([User])
     ],
     providers: [
-        {
-          provide: APP_FILTER,
-          useClass: HttpErrorFilter,
-        },
-        {
-          provide: APP_INTERCEPTOR,
-          useClass: LoggingInterceptor,
-        },
-        JwtStrategy
-      ],
-      exports: [PassportModule ]
+      {
+        provide: APP_FILTER,
+        useClass: HttpErrorFilter,
+      },
+      {
+        provide: APP_INTERCEPTOR,
+        useClass: LoggingInterceptor,
+      },
+      JwtStrategy,
+      UserService
+    ],
+      exports: [PassportModule, UserService ]
 })
 export class CoreModule {}

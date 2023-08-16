@@ -1,6 +1,6 @@
 import { Entity, Column } from 'typeorm';
 
-import { AbstractEntity } from '../../shared/base-entity';
+import AbstractEntity  from '../../shared/base-entity';
 
 @Entity()
 export class Agent extends AbstractEntity {

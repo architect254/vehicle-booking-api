@@ -6,9 +6,8 @@ import { FeatureModule } from "./feature/feature.module";
 import { AppController } from "./app.controller";
 
 import { AppService } from "./app.service";
-import { UserService } from "./feature/user/user.service";
+import { UserService } from "./core/user.service";
 
-import { UserRole } from "./shared/user.role";
 
 
 @Module({
@@ -28,15 +27,15 @@ export class AppModule implements OnApplicationBootstrap {
   async onApplicationBootstrap() {
     const users = await this.userService.readAll(undefined, undefined);
 
-    if (!users || users.length == 0) {
-      await this.userService.create(
-        {
-          name: `SYSTEM`,
-          email: `official.jared.bada@gmail.com`,
-          role: UserRole.SYSTEM
-        },
-        null,
-      );
-    }
+    // if (!users || users.length == 0) {
+    //   await this.userService.create(
+    //     {
+    //       name: `SYSTEM`,
+    //       email: `official.jared.bada@gmail.com`,
+    //       role: UserRole.SYSTEM
+    //     },
+    //     null,
+    //   );
+    // }
   }
 }

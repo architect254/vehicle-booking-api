@@ -16,8 +16,8 @@ import { AgentService } from './agent.service';
 import { CreateAgentDto } from './create-agent.dto';
 import { UpdateAgentDto } from './update-agent.dto';
 
-import { User } from '../user/user.entity';
-import { GetUser } from '../../shared/get-user.decorator';
+import { User } from '../../shared/user/user.entity';
+import { GetUser } from '../../shared/user/get-user.decorator';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('Agents')

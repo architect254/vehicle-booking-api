@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { Provider } from './provider.entity';
 import { CreateProviderDto } from './create-provider.dto';
 import { UpdateProviderDto } from './update-provider.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @Injectable()
 export class ProviderService {

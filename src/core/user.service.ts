@@ -8,9 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { compare, hash, genSalt } from 'bcrypt';
 
-import { User } from './user.entity';
-import { CreateUserDto } from './create-user.dto';
-import { UpdateUserDto } from './update-user.dto';
+import { User } from '../shared/user/user.entity';
+
 
 @Injectable()
 export class UserService {
@@ -20,12 +19,12 @@ export class UserService {
   ) {}
 
   async create(
-    credentials: CreateUserDto,
+    details: User,
     currentUser: User,
   ): Promise<string> {
     const user = new User();
 
-    Object.assign(user, credentials);
+    Object.assign(user, details);
 
     user.createdBy = currentUser;
     user.updatedBy = currentUser;
@@ -64,10 +63,10 @@ export class UserService {
     });
   }
 
-  async update(id, payload: UpdateUserDto, currentUser: User): Promise<string> {
+  async update(id, details: Partial<User>, currentUser: User): Promise<string> {
     const user: User = await this.read(id);
 
-    Object.assign(user, payload);
+    Object.assign(user, details);
     user.updatedBy = currentUser;
 
     await this.userRepo.save(user);
