@@ -11,12 +11,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { GetUser } from '../../shared/get-user.decorator';
+import { GetUser } from '../../shared/user/get-user.decorator';
 import { ProviderService } from './provider.service';
 
 import { CreateProviderDto } from './create-provider.dto';
 import { UpdateProviderDto } from './update-provider.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('Providers')

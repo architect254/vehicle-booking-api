@@ -13,12 +13,12 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { GetUser } from '../../shared/get-user.decorator';
+import { GetUser } from '../../shared/user/get-user.decorator';
 import { RouteService } from './route.service';
 
 import { CreateRouteDto } from './create-route.dto';
 import { UpdateRouteDto } from './update-route.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('routes')

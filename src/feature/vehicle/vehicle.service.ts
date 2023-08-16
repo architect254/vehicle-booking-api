@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { Vehicle } from './vehicle.entity';
 import { CreateVehicleDto } from './create-vehicle.dto';
 import { UpdateVehicleDto } from './update-vehicle.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @Injectable()
 export class VehicleService {

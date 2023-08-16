@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { Agent } from './agent.entity';
 import { CreateAgentDto } from './create-agent.dto';
 import { UpdateAgentDto } from './update-agent.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @Injectable()
 export class AgentService {

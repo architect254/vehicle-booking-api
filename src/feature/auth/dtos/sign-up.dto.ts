@@ -1,7 +1,8 @@
-import { SignInCredentialsDto } from './sign-in.dto';
 import { IsNotEmpty, IsString, IsEmail, IsDate, IsEnum } from 'class-validator';
 
-import { UserRole } from 'src/shared/user.role';
+import { UserRole } from '../../../shared/user/user.role';
+
+import { SignInCredentialsDto } from './sign-in.dto';
 
 export class SignUpCredentialsDto extends SignInCredentialsDto {
   @IsNotEmpty()

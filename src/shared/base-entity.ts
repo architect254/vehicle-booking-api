@@ -1,8 +1,9 @@
-import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Column } from "typeorm";
+import { PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Column, OneToOne } from "typeorm";
 
-import { User } from "../feature/user/user.entity";
+import { User } from "./user/user.entity";
 
-export abstract class AbstractEntity {
+// Handle Audit
+export default abstract class AbstractEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: number;
 
@@ -12,16 +13,18 @@ export abstract class AbstractEntity {
   @UpdateDateColumn()
   dateUpdated?: Date;
 
-  @ManyToOne(() => User, { nullable: true })
+  @OneToOne(() => User,(user: User)=>user.id, { nullable: true , cascade: true, 
+    onDelete: "CASCADE"})
   @JoinColumn()
-  createdBy: User;
+  createdBy?: User;
 
   @Column({ nullable: true })
   createdById: string;
 
-  @ManyToOne(() => User, { nullable: true })
+  @OneToOne(() => User,(user: User)=>user.id, { nullable: true , cascade: true, 
+    onDelete: "CASCADE"})
   @JoinColumn()
-  updatedBy: User;
+  updatedBy?: User;
 
   @Column({ nullable: true })
   updatedById: string;

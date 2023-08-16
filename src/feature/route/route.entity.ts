@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne } from 'typeorm';
 
-import { AbstractEntity } from '../../shared/base-entity';
+import AbstractEntity  from '../../shared/base-entity';
 import { Vehicle } from '../vehicle/vehicle.entity';
 
 @Entity()

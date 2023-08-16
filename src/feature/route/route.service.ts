@@ -10,7 +10,7 @@ import { Repository } from 'typeorm';
 import { Route } from './route.entity';
 import { CreateRouteDto } from './create-route.dto';
 import { UpdateRouteDto } from './update-route.dto';
-import { User } from '../user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
 @Injectable()
 export class RouteService {

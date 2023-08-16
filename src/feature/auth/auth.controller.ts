@@ -4,8 +4,9 @@ import { JwtService } from '@nestjs/jwt';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
 
 import { AuthService } from './auth.service';
-import { JwtPayload } from '../../core/jwt.payload';
-import { User } from '../user/user.entity';
+
+import { JwtPayload } from '../../shared/jwt.payload';
+import { User } from '../../shared/user/user.entity';
 
 
 @Controller('auth')

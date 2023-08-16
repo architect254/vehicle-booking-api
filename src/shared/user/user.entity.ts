@@ -5,11 +5,12 @@ import {
 
 import { Exclude } from 'class-transformer';
 
-import { AbstractEntity } from '../../shared/base-entity';
-import { UserRole } from '../../shared/user.role';
+import AbstractEntity from '../base-entity';
+
+import { UserRole } from './user.role';
 
 @Entity('users')
-export class User extends AbstractEntity {
+export class User  extends AbstractEntity{  
   @Column()
   name: string;
 
@@ -25,9 +26,9 @@ export class User extends AbstractEntity {
 
   @Exclude()
   @Column()
-  password: string;
+  salt: string;
 
   @Exclude()
   @Column()
-  salt: string;
+  password: string;
 }
