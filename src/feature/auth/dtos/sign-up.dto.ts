@@ -7,11 +7,7 @@ import { SignInCredentialsDto } from './sign-in.dto';
 export class SignUpCredentialsDto extends SignInCredentialsDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
-
-  @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  username: string;
 
   @IsNotEmpty()
   @IsEnum(UserRole)
@@ -19,5 +15,5 @@ export class SignUpCredentialsDto extends SignInCredentialsDto {
 
   @IsNotEmpty()
   @IsString()
-  password: string;
+  pin: string;
 }

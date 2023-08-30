@@ -19,12 +19,12 @@ export class HttpErrorFilter implements ExceptionFilter {
       timestamp: new Date().toLocaleDateString(),
       path: request.url,
       method: request.method,
-      message: exception.getResponse()['message'] || null,
-      error: exception.getResponse()['error'],
+      messages: exception.getResponse()['message'] || null,
+      title: exception.getResponse()['error'],
     };
 
     Logger.error(
-      `${errorResponse.method} | ${errorResponse.path} | ${errorResponse.error} | ${errorResponse.code} | ${errorResponse.message}`,
+      `${errorResponse.method} | ${errorResponse.path} | ${errorResponse.code} | ${errorResponse.title} | ${errorResponse.messages}`,
       exception.stack,
       'HttpErrorFilter',
     );

@@ -11,16 +11,13 @@ import { UserRole } from './user.role';
 
 @Entity('users')
 export class User  extends AbstractEntity{  
-  @Column()
-  name: string;
-
   @Column({ unique: true })
-  email: string;
+  username: string;
 
   @Column({
     type: 'enum',
     enum: UserRole,
-    default: UserRole.BASIC,
+    default: UserRole.LENDEE,
   })
   role: UserRole;
 
@@ -30,5 +27,5 @@ export class User  extends AbstractEntity{
 
   @Exclude()
   @Column()
-  password: string;
+  pin: string;
 }
