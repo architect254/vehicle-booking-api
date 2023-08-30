@@ -36,21 +36,21 @@ export class LoggingInterceptor implements NestInterceptor {
       }
     };
 
-    const logSignedUser = user => {
+    const logSignedUser = (user) => {
       if (!user || !Object.keys(user).length) {
         return `no signed user`;
       }
       return `signed user : ${user.id}`;
     };
 
-    const logQueryParams = query => {
+    const logQueryParams = (query) => {
       if (!query || !Object.keys(query).length) {
         return `no query params`;
       }
       return 'query_params : ' + JSON.stringify(query);
     };
 
-    const logRouteParams = params => {
+    const logRouteParams = (params) => {
       if (!params || !Object.keys(params).length) {
         return `no route params`;
       }

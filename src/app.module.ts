@@ -1,41 +1,23 @@
-import { Module, OnApplicationBootstrap } from "@nestjs/common";
+import { Module } from '@nestjs/common';
+
+import { PassportModule } from '@nestjs/passport';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 import { CoreModule } from './core/core.module';
-import { FeatureModule } from "./feature/feature.module";
+import { FeatureModule } from './feature/feature.module';
 
-import { AppController } from "./app.controller";
-
-import { AppService } from "./app.service";
-import { UserService } from "./core/user.service";
-
-
-
+import { typeOrmConfig } from './shared/config/typeorm.config';
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    TypeOrmModule.forRoot(typeOrmConfig),
     CoreModule,
     FeatureModule,
   ],
   controllers: [AppController],
-  providers:[
-    AppService,
-  ]
+  providers: [AppService],
 })
-export class AppModule implements OnApplicationBootstrap {
-  constructor(
-    private userService: UserService,
-  ) {}
-  async onApplicationBootstrap() {
-    const users = await this.userService.readAll(undefined, undefined);
-
-    // if (!users || users.length == 0) {
-    //   await this.userService.create(
-    //     {
-    //       name: `SYSTEM`,
-    //       email: `official.jared.bada@gmail.com`,
-    //       role: UserRole.SYSTEM
-    //     },
-    //     null,
-    //   );
-    // }
-  }
-}
+export class AppModule {}

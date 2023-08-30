@@ -2,10 +2,10 @@ import { IsString, IsNotEmpty, IsEmail } from 'class-validator';
 
 export class SignInCredentialsDto {
   @IsNotEmpty()
-  @IsEmail()
-  email: string;
+  @IsString()
+  username: string;
 
   @IsNotEmpty()
   @IsString()
-  password: string;
+  pin: string;
 }

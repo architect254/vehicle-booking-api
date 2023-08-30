@@ -5,12 +5,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Repository } from 'typeorm';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 
-import { User } from '../shared/user/user.entity';
+import { User } from '../../shared/user/user.entity';
 
-import { JwtPayload } from '../shared/jwt.payload';
+import { JwtPayload } from '../../shared/jwt.payload';
 
 
 import * as config from 'config';
+const jwtConfig = config.get('jwt');
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -20,14 +21,14 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: process.env.JWT_SECRET || config.get('jwt.secret'),
+      secretOrKey: `${process.env.JWT_SECRET}` || jwtConfig.secret,
     });
   }
 
   async validate(payload: JwtPayload): Promise<User> {
     const userPayload = payload.user;
-    const email = userPayload.email;
-    const foundUser = await this.userRepo.findOne({where:{ email }});
+    const username = userPayload.username;
+    const foundUser = await this.userRepo.findOne({where:{ username }});
 
     if (!foundUser) {
       throw new UnauthorizedException('Invalid credentials');
