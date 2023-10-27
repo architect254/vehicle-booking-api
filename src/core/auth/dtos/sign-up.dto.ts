@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsEmail, IsDate, IsEnum } from 'class-validator';
 
-import { UserRole } from '../../../shared/user/user.role';
+import { UserRole } from '../../../core/user/user.role';
 
 import { SignInCredentialsDto } from './sign-in.dto';
 

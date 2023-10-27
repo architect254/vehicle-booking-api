@@ -5,7 +5,7 @@ import {
 
 import { Exclude } from 'class-transformer';
 
-import AbstractEntity from '../base-entity';
+import AbstractEntity from '../../shared/base-entity';
 
 import { UserRole } from './user.role';
 

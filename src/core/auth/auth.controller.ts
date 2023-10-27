@@ -7,7 +7,7 @@ import { SignInCredentialsDto } from './dtos/sign-in.dto';
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 
 import { JwtPayload } from '../../shared/jwt.payload';
-import { User } from '../../shared/user/user.entity';
+import { User } from '../../core/user/user.entity';
 
 
 @Controller('')

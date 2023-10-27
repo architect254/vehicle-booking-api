@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { compare, hash, genSalt } from 'bcrypt';
 
-import { User } from '../../shared/user/user.entity';
+import { User } from '../../core/user/user.entity';
 
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
