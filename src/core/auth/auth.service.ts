@@ -13,6 +13,8 @@ import { User } from '../../core/user/user.entity';
 
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
+import { UserService } from 'src/feature/auth/user.service';
+import { UserRole } from '../user/user.role';
 
 @Injectable()
 export class AuthService {
@@ -22,13 +24,24 @@ export class AuthService {
   ) {}
 
   async signUp(credentials: SignUpCredentialsDto): Promise<User> {
-    const { pin, username, role } = credentials;
+    const {firstname, surname, phoneNo, password } = credentials;
 
-    const user = new User();
-    user.username = username;
-    user.role = role;
+    const userType = UserRole.SYSTEM;
+
+    const system = await this.userRepo
+    .createQueryBuilder('user')
+    .where('user.role =:id', { userType })
+    .getOne();
+
+  if (!system || !Object.keys(system).length) {
+    const errorMessage = "Can't Add User; System Not Available";
+    throw new NotFoundException(errorMessage);
+  }
+
+    const user = new User(firstname, surname, phoneNo, system);
+    
     user.salt = await genSalt();
-    user.pin = await this.hashPassword(pin, user.salt);
+    user.password = await this.hashPassword(password, user.salt);
 
     try {
        await this.userRepo.save(user);
@@ -43,12 +56,12 @@ export class AuthService {
   }
 
   async signIn(credentials: SignInCredentialsDto) {
-    const { username, pin } = credentials;
-    const user = await this.userRepo.findOne({where:{username}});
+    const { phoneNo, password } = credentials;
+    const user = await this.userRepo.findOne({where:{phoneNo}});
     if (!user) {
       throw new NotFoundException('Failed! User not found');
     }
-    const isValid = await compare(pin, user.pin);
+    const isValid = await compare(password, user.password);
 
     if (!isValid) {
       return null;

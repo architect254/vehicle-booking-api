@@ -1,7 +1,8 @@
 export enum UserRole {
     SYSTEM = 'System',
     ADMIN = 'Admin',
-    LENDER = 'Lender',
-    LENDEE = 'Lendee',
+    AGENT = 'Agent',
+    MANAGER = 'manager',
+    USER = 'User',
     HYBRID = 'Hybrid',
   }
