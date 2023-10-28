@@ -21,46 +21,6 @@ export class UserService {
     private userRepo: Repository<User>,
   ) {}
 
-  async create(payload: CreateUserDto, createdById): Promise<User> {
-    const { firstname, surname, phoneNo} = payload;
-
-    const createdByUser = await this.read(createdById);
-    const user = new User(firstname, surname, phoneNo,createdByUser);
-
-    await user.encrypt();
-    await user.hashPassword(`password@1234`);
-
-    return await this.save(user);
-  }
-
-  async readAll(page: number, pageSize: number): Promise<User[]> {
-    const skip: number = pageSize * (page - 1);
-    return await this.userRepo.find({ skip, take: pageSize });
-  }
-
-  async update(id, payload: UpdateUserDto, updatedById): Promise<User> {
-    const { firstname, surname, phoneNo } = payload;
-    const user: User = await this.read(id);
-
-    user.firstname = firstname || user.firstname;
-    user.surname = surname || user.surname;
-    user.phoneNo = phoneNo || user.phoneNo;
-
-    return await this.save(user);
-  }
-
-  async drop(id): Promise<any> {
-    const user: User = await this.read(id);
-    const result = await this.userRepo.remove(user);
-
-    if (!result) {
-      const errorMessage = `failed to delete user:${user.id}`;
-      throw new InternalServerErrorException(errorMessage);
-    }
-
-    return id;
-  }
-
   async read(id): Promise<User> {
     const user = await this.userRepo
       .createQueryBuilder('user')
@@ -86,6 +46,44 @@ export class UserService {
       } else {
         throw new InternalServerErrorException(error.message);
       }
+    }
+  }
+
+  async create(payload: CreateUserDto, createdById): Promise<User> {
+    const { firstname, surname, phoneNo } = payload;
+
+    const createdByUser = await this.read(createdById);
+    const user = new User(firstname, surname, phoneNo, createdByUser);
+
+    await user.encrypt();
+    await user.hashPassword(`password@1234`);
+
+    return await this.save(user);
+  }
+
+  async readAll(page: number, pageSize: number): Promise<User[]> {
+    const skip: number = pageSize * (page - 1);
+    return await this.userRepo.find({ skip, take: pageSize });
+  }
+
+  async update(id, payload: UpdateUserDto, updatedById): Promise<User> {
+    const { firstname, surname, phoneNo } = payload;
+    const user: User = await this.read(id);
+
+    user.firstname = firstname || user.firstname;
+    user.surname = surname || user.surname;
+    user.phoneNo = phoneNo || user.phoneNo;
+
+    return await this.save(user);
+  }
+
+  async drop(id): Promise<void> {
+    const user: User = await this.read(id);
+    const deleted = await this.userRepo.remove(user);
+
+    if (!deleted) {
+      const errorMessage = `failed to delete user:${user.id}`;
+      throw new InternalServerErrorException(errorMessage);
     }
   }
 }

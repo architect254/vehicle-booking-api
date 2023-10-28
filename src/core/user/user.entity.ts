@@ -10,7 +10,7 @@ import { UserRole } from './user.role';
 
 import { InternalServerErrorException } from '@nestjs/common';
 
-@Entity('users')
+@Entity('USERS')
 export class User extends AbstractEntity {
   @Column()
   firstname: string;
