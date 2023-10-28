@@ -4,7 +4,7 @@ server:
 db:
   type: "postgres"
   port: 5432
-  database: "vehicle-booking-db"
+  database: "vehicle-booking"
 
 jwt:
   expiresIn: 3600

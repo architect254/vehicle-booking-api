@@ -23,8 +23,9 @@ export class UserService {
 
   async create(payload: CreateUserDto, createdById): Promise<User> {
     const { firstname, surname, phoneNo} = payload;
-    const createdBy: User = await this.read(createdById);
-    const user = new User(firstname, surname, phoneNo, createdBy);
+
+    const createdByUser = await this.read(createdById);
+    const user = new User(firstname, surname, phoneNo,createdByUser);
 
     await user.encrypt();
     await user.hashPassword(`password@1234`);
@@ -39,13 +40,11 @@ export class UserService {
 
   async update(id, payload: UpdateUserDto, updatedById): Promise<User> {
     const { firstname, surname, phoneNo } = payload;
-    const updatedBy = await this.read(updatedById);
     const user: User = await this.read(id);
 
     user.firstname = firstname || user.firstname;
     user.surname = surname || user.surname;
     user.phoneNo = phoneNo || user.phoneNo;
-    user.updatedBy = updatedBy;
 
     return await this.save(user);
   }
