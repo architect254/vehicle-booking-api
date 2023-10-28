@@ -13,7 +13,6 @@ import { User } from '../../core/user/user.entity';
 
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
-import { UserService } from 'src/feature/auth/user.service';
 import { UserRole } from '../user/user.role';
 
 @Injectable()

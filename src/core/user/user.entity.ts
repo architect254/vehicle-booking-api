@@ -29,11 +29,11 @@ export class User extends AbstractEntity {
   role: UserRole;
 
   @Exclude()
-  @Column()
+  @Column({nullable: true})
   salt: string;
 
   @Exclude()
-  @Column()
+  @Column({nullable: true})
   password: string;
 
   constructor(

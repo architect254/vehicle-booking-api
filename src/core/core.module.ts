@@ -3,12 +3,17 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
 import { HttpErrorFilter } from './http-error.filter';
 import { LoggingInterceptor } from './logging.interceptor';
+
 import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user/user.entity';
 
 
 @Module({
   imports:[
-    AuthModule
+    UserModule,
+    AuthModule,
   ]  ,
   providers: [
     {
@@ -20,6 +25,6 @@ import { AuthModule } from './auth/auth.module';
       useClass: LoggingInterceptor,
     },
   ],
-  exports:[AuthModule]
+  exports:[UserModule,AuthModule]
 })
 export class CoreModule {}
