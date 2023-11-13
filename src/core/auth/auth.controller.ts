@@ -7,7 +7,7 @@ import { SignInCredentialsDto } from './dtos/sign-in.dto';
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 
 import { JwtPayload } from '../../shared/jwt.payload';
-import { User } from '../../shared/user/user.entity';
+import { User } from '../../core/user/user.entity';
 
 
 @Controller('')
@@ -34,7 +34,7 @@ export class AuthController {
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
-    delete user.pin && delete user.salt;
+    delete user.password && delete user.salt;
     const userPayload: JwtPayload = { user };
     const accessToken = await this.jwtService.sign(userPayload);
 

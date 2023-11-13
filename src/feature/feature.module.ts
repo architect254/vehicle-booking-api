@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
+import { VehicleModule } from './vehicle/vehicle.module';
 
-import { AuthModule } from './auth/auth.module';
 
 @Module({
     imports:[
-        AuthModule
+        VehicleModule
     ],
 })
 export class FeatureModule {}
