@@ -14,8 +14,8 @@ export default abstract class AbstractEntity {
   @PrimaryGeneratedColumn('uuid')
   id?: string;
 
-  @CreateDateColumn()
-  dateCreated?: Date;
+  @CreateDateColumn({name: 'created_at'})
+  createdAt: Date;
 
   @Exclude()
   @ManyToOne(() => User, { nullable: true })
@@ -25,8 +25,9 @@ export default abstract class AbstractEntity {
   @Column({ nullable: true })
   createdById: string;
 
-  @UpdateDateColumn()
-  dateUpdated?: Date;
+  @UpdateDateColumn({name: 'updated_at'})
+  updatedAt: Date;
+
 
   @Exclude()
   @ManyToOne(() => User, { nullable: true })

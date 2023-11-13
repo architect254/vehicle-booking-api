@@ -15,15 +15,14 @@ import { CoreModule } from './core/core.module';
 import { FeatureModule } from './feature/feature.module';
 
 import { typeOrmConfig } from './shared/typeorm.config';
-import { Repository } from 'typeorm';
 import { User } from './core/user/user.entity';
 import { UserRole } from './core/user/user.role';
+import { UserService } from './core/user/user.service';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forRoot(typeOrmConfig),
-    TypeOrmModule.forFeature([User]),
     CoreModule,
     FeatureModule,
   ],
@@ -32,26 +31,9 @@ import { UserRole } from './core/user/user.role';
 })
 export class AppModule implements OnModuleInit {
   constructor(
-    @InjectRepository(User)
-    private userRepo: Repository<User>,
+    private userService: UserService,
   ) {}
   async onModuleInit() {
-    debugger
-    const userType = UserRole.SYSTEM;
-    let system = await this.userRepo
-      .createQueryBuilder('user')
-      .select()
-      .where('user.role =:userType', { userType })
-      .getOne();
-
-    if (!system || !Object.keys(system).length) {
-      system = new User(`VEHICLE BOOKING`, `SYSTEM`, `0790101888`, null);
-
-      try {
-        return await this.userRepo.save(system);
-      } catch (error) {
-        throw new InternalServerErrorException(error.message);
-      }
-    }
+    this.userService.checkSystem()
   }
 }

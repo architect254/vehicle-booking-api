@@ -30,8 +30,6 @@ export class Vehicle extends AbstractEntity {
     this.capacity = capacity;
     this.cost = cost;
     this.createdBy = createdBy;
-    this.dateCreated = new Date();
     this.updatedBy = createdBy;
-    this.dateUpdated = new Date();
   }
 }

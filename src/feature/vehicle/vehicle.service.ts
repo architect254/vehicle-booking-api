@@ -53,7 +53,7 @@ export class VehicleService {
   async create({ registrationNo, capacity, cost}: CreateVehicleDto, createdById): Promise<Vehicle> {
 
     const createdByUser = await this.userService.read(createdById);
-    const vehicle = new Vehicle(registrationNo, capacity, cost,createdByUser);
+    const vehicle = new Vehicle(registrationNo, capacity, cost);
 
     return await this.save(vehicle);
   }

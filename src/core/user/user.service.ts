@@ -13,6 +13,7 @@ import { User } from '../../core/user/user.entity';
 
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { UserRole } from './user.role';
 
 @Injectable()
 export class UserService {
@@ -52,8 +53,7 @@ export class UserService {
   async create(payload: CreateUserDto, createdById): Promise<User> {
     const { firstname, surname, phoneNo } = payload;
 
-    const createdByUser = await this.read(createdById);
-    const user = new User(firstname, surname, phoneNo, createdByUser);
+    const user = new User(firstname, surname, phoneNo);
 
     await user.encrypt();
     await user.hashPassword(`password@1234`);
@@ -61,9 +61,9 @@ export class UserService {
     return await this.save(user);
   }
 
-  async readAll(page: number, pageSize: number): Promise<User[]> {
-    const skip: number = pageSize * (page - 1);
-    return await this.userRepo.find({ skip, take: pageSize });
+  async readAll(page: number, take: number): Promise<User[]> {
+    const skip: number = take * (page - 1);
+    return await this.userRepo.find({ skip, take });
   }
 
   async update(id, payload: UpdateUserDto, updatedById): Promise<User> {
@@ -84,6 +84,25 @@ export class UserService {
     if (!deleted) {
       const errorMessage = `failed to delete user:${user.id}`;
       throw new InternalServerErrorException(errorMessage);
+    }
+  }
+
+  async checkSystem(){
+    const userType = UserRole.SYSTEM;
+    let system = await this.userRepo
+      .createQueryBuilder('user')
+      .select()
+      .where('user.role =:userType', { userType })
+      .getOne();
+
+    if (!system || !Object.keys(system).length) {
+     this.create({firstname:`JARED`,surname:`BADA`,phoneNo:`0790101889`}, null)
+
+      try {
+        return await this.save(system);
+      } catch (error) {
+        throw new InternalServerErrorException(error.message);
+      }
     }
   }
 }

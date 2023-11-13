@@ -37,7 +37,7 @@ export class AuthService {
     throw new NotFoundException(errorMessage);
   }
 
-    const user = new User(firstname, surname, phoneNo,system);
+    const user = new User(firstname, surname, phoneNo);
     
     user.salt = await genSalt();
     user.password = await this.hashPassword(password, user.salt);
