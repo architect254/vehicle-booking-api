@@ -15,6 +15,7 @@ import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
 import { UserRole } from '../user/user.role';
 import { UserService } from '../user/user.service';
+import { ResetPasswordDto } from './dtos/reset-password.dto';
 
 @Injectable()
 export class AuthService {
@@ -85,6 +86,24 @@ export class AuthService {
       return null;
     }
     return user;
+  }
+
+
+  async resetPassword(credentials: ResetPasswordDto){
+    const { phoneNo, password, newPassword} = credentials;
+    const user = await this.userRepo.findOne({where:[{phoneNo}]});
+    if (!user) {
+      throw new NotFoundException('Failed! User not found');
+    }
+   user.salt = await genSalt()
+   user.password = await this.hashPassword(password, user.salt);
+
+   try {
+    await this.userRepo.save(user);
+ } catch (error) {
+     throw new InternalServerErrorException(error.message);
+ }
+
   }
 
   async hashPassword(input: string, salt: string): Promise<string> {

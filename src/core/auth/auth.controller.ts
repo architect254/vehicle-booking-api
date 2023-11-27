@@ -8,6 +8,7 @@ import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 
 import { JwtPayload } from '../../shared/jwt.payload';
 import { User } from '../../core/user/user.entity';
+import { ResetPasswordDto } from './dtos/reset-password.dto';
 
 
 @Controller('auth')
@@ -40,5 +41,14 @@ export class AuthController {
     const token = await this.jwtService.sign(userPayload);
 
     return { token };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('/password-reset')
+  async resetPassword(
+    @Body()
+    payload: ResetPasswordDto,
+  ): Promise<void> {
+     await this.authService.resetPassword(payload);
   }
 }
