@@ -9,7 +9,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { CoreModule } from './core/core.module';
-./features/feature.module
 import { typeOrmConfig } from './shared/typeorm.config';
 
 @Module({
