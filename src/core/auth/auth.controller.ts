@@ -30,15 +30,15 @@ export class AuthController {
   async signIn(
     @Body()
     payload: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ token: string }> {
     const user:User = await this.authService.signIn(payload);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
     delete user.password && delete user.salt;
     const userPayload: JwtPayload = { user };
-    const accessToken = await this.jwtService.sign(userPayload);
+    const token = await this.jwtService.sign(userPayload);
 
-    return { accessToken };
+    return { token };
   }
 }

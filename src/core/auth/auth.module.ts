@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { User } from '../../core/user/user.entity';
 
 import * as config from 'config';
+import { UserModule } from '../user/user.module';
 
 
 const jwtConfig = config.get('jwt');
@@ -21,6 +22,7 @@ const jwtConfig = config.get('jwt');
         expiresIn: jwtConfig.expiresIn,
       },
     }),
+    UserModule
   ],
   providers: [AuthService],
   controllers: [AuthController],

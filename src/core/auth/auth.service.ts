@@ -34,7 +34,6 @@ export class AuthService {
 
     try {
        await this.userRepo.save(user);
-       return
     } catch (error) {
       if (error.code == '23505') {
         throw new ConflictException('Failed! User exists');
@@ -47,7 +46,7 @@ export class AuthService {
   async signUp(credentials: SignUpCredentialsDto): Promise<void> {
 
     const users = await this.userService.readAll(1,1);
-    if (!users) {
+    if (!users.length) {
       this.createAdmin(credentials);
     }
   }
