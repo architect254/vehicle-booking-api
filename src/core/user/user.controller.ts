@@ -7,6 +7,7 @@ import {
   Query,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 
 import { UserService } from './user.service';
@@ -16,7 +17,10 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 
 import { User } from '../../core/user/user.entity';
 import { GetUser } from 'src/core/user/get-user.decorator';
+import { GetUsersDto } from './dtos/get-users.dto';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -32,8 +36,7 @@ export class UserController {
 
   @Get()
   async getAll(
-    @Query('page') page: number,
-    @Query('pageSize') pageSize: number,
+    @Query() {page, pageSize}: GetUsersDto
   ) {
     return this.userService.readAll(page, pageSize);
   }

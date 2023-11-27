@@ -43,17 +43,39 @@ export class AuthService {
     }
   }
 
+  async createUser(credentials:SignUpCredentialsDto){
+     const {firstname, surname, phoneNo, password } = credentials;
+
+    const user = new User(firstname, surname,UserRole.ADMIN, phoneNo);
+    
+    user.salt = await genSalt();
+    user.password = await this.hashPassword(password, user.salt);
+
+    try {
+       await this.userRepo.save(user);
+    } catch (error) {
+      if (error.code == '23505') {
+        throw new ConflictException('Failed! User exists');
+      } else {
+        throw new InternalServerErrorException(error.message);
+      }
+    }
+  }
+
   async signUp(credentials: SignUpCredentialsDto): Promise<void> {
 
     const users = await this.userService.readAll(1,1);
     if (!users.length) {
-      this.createAdmin(credentials);
+      await this.createAdmin(credentials);
+    }
+    else {
+      await this.createUser(credentials)
     }
   }
 
   async signIn(credentials: SignInCredentialsDto) {
     const { phoneNo, password } = credentials;
-    const user = await this.userRepo.findOne({where:{phoneNo}});
+    const user = await this.userRepo.findOne({where:[{phoneNo}]});
     if (!user) {
       throw new NotFoundException('Failed! User not found');
     }

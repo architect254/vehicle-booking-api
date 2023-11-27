@@ -10,7 +10,7 @@ import { JwtPayload } from '../../shared/jwt.payload';
 import { User } from '../../core/user/user.entity';
 
 
-@Controller('')
+@Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
