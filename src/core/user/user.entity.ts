@@ -39,13 +39,14 @@ export class User extends AbstractEntity {
   constructor(
     firstname: string,
     surname: string,
+    role: UserRole,
     phoneNo: string,
   ) {
     super();
     this.firstname = firstname;
     this.surname = surname;
     this.phoneNo = phoneNo;
-    this.role = UserRole.ADMIN;
+    this.role = role;
   }
 
   public encrypt() {

@@ -1,4 +1,4 @@
-import { Controller, UnauthorizedException, Post, Body } from '@nestjs/common';
+import { Controller, UnauthorizedException, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { AuthService } from './auth.service';
@@ -17,12 +17,13 @@ export class AuthController {
     private jwtService: JwtService,
   ) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post('/sign-up')
   async signUp(
     @Body()
     payload: SignUpCredentialsDto,
-  ): Promise<User> {
-    return this.authService.signUp(payload);
+  ): Promise<void> {
+     this.authService.signUp(payload);
   }
 
   @Post('/sign-in')

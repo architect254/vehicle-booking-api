@@ -14,30 +14,20 @@ import { User } from '../../core/user/user.entity';
 import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 import { SignInCredentialsDto } from './dtos/sign-in.dto';
 import { UserRole } from '../user/user.role';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private userRepo: Repository<User>,
+    private userService: UserService
   ) {}
 
-  async signUp(credentials: SignUpCredentialsDto): Promise<User> {
+ async createAdmin(credentials: SignUpCredentialsDto){
     const {firstname, surname, phoneNo, password } = credentials;
 
-    const userType = UserRole.SYSTEM;
-
-    const system = await this.userRepo
-    .createQueryBuilder('user')
-    .where('user.role =:id', { userType })
-    .getOne();
-
-  if (!system || !Object.keys(system).length) {
-    const errorMessage = "Can't Add User; System Not Available";
-    throw new NotFoundException(errorMessage);
-  }
-
-    const user = new User(firstname, surname, phoneNo);
+    const user = new User(firstname, surname,UserRole.ADMIN, phoneNo);
     
     user.salt = await genSalt();
     user.password = await this.hashPassword(password, user.salt);
@@ -51,6 +41,14 @@ export class AuthService {
       } else {
         throw new InternalServerErrorException(error.message);
       }
+    }
+  }
+
+  async signUp(credentials: SignUpCredentialsDto): Promise<void> {
+
+    const users = await this.userService.readAll(1,1);
+    if (!users) {
+      this.createAdmin(credentials);
     }
   }
 
