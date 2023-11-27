@@ -9,8 +9,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { CoreModule } from './core/core.module';
-import { FeatureModule } from './feature/feature.module';
-
+./features/feature.module
 import { typeOrmConfig } from './shared/typeorm.config';
 
 @Module({
@@ -18,7 +17,6 @@ import { typeOrmConfig } from './shared/typeorm.config';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forRoot(typeOrmConfig),
     CoreModule,
-    FeatureModule,
   ],
   controllers: [AppController],
   providers: [AppService],

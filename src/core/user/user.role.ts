@@ -1,8 +1,6 @@
 export enum UserRole {
-    SYSTEM = 'System',
-    ADMIN = 'Admin',
-    AGENT = 'Agent',
-    MANAGER = 'manager',
-    USER = 'User',
-    HYBRID = 'Hybrid',
+    ADMIN = 'admin',
+    COMPANY_MANAGER = 'company-manager',
+    VEHICLE_MANAGER = 'vehicle-manager',
+    BOOKING_MANAGER = 'booking-manager',
   }
