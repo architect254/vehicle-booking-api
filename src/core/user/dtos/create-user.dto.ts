@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty} from 'class-validator';
+import { IsString, IsNotEmpty, IsEnum} from 'class-validator';
+import { UserRole } from '../user.role';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -12,4 +13,8 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
   surname: string;
+
+  @IsNotEmpty()
+  @IsEnum(type => UserRole)
+  role: UserRole;
 }

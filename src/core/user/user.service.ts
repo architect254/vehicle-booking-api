@@ -51,9 +51,9 @@ export class UserService {
   }
 
   async create(payload: CreateUserDto, createdById): Promise<User> {
-    const { firstname, surname, phoneNo } = payload;
+    const { firstname, surname, role ,phoneNo } = payload;
 
-    const user = new User(firstname, surname, phoneNo);
+    const user = new User(firstname, surname, role, phoneNo);
 
     await user.encrypt();
     await user.hashPassword(`password@1234`);
@@ -87,22 +87,4 @@ export class UserService {
     }
   }
 
-  async checkSystem(){
-    const userType = UserRole.SYSTEM;
-    let system = await this.userRepo
-      .createQueryBuilder('user')
-      .select()
-      .where('user.role =:userType', { userType })
-      .getOne();
-
-    if (!system || !Object.keys(system).length) {
-     this.create({firstname:`JARED`,surname:`BADA`,phoneNo:`0790101889`}, null)
-
-      try {
-        return await this.save(system);
-      } catch (error) {
-        throw new InternalServerErrorException(error.message);
-      }
-    }
-  }
 }

@@ -1,4 +1,4 @@
-import { Controller, UnauthorizedException, Post, Body } from '@nestjs/common';
+import { Controller, UnauthorizedException, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
 import { AuthService } from './auth.service';
@@ -8,36 +8,47 @@ import { SignUpCredentialsDto } from './dtos/sign-up.dto';
 
 import { JwtPayload } from '../../shared/jwt.payload';
 import { User } from '../../core/user/user.entity';
+import { ResetPasswordDto } from './dtos/reset-password.dto';
 
 
-@Controller('')
+@Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private jwtService: JwtService,
   ) {}
 
+  @HttpCode(HttpStatus.CREATED)
   @Post('/sign-up')
   async signUp(
     @Body()
     payload: SignUpCredentialsDto,
-  ): Promise<User> {
-    return this.authService.signUp(payload);
+  ): Promise<void> {
+     this.authService.signUp(payload);
   }
 
   @Post('/sign-in')
   async signIn(
     @Body()
     payload: SignInCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<{ token: string }> {
     const user:User = await this.authService.signIn(payload);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
     delete user.password && delete user.salt;
     const userPayload: JwtPayload = { user };
-    const accessToken = await this.jwtService.sign(userPayload);
+    const token = await this.jwtService.sign(userPayload);
 
-    return { accessToken };
+    return { token };
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('/password-reset')
+  async resetPassword(
+    @Body()
+    payload: ResetPasswordDto,
+  ): Promise<void> {
+     await this.authService.resetPassword(payload);
   }
 }
