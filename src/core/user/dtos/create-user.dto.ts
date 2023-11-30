@@ -4,7 +4,7 @@ import { UserRole } from '../user.role';
 export class CreateUserDto {
   @IsNotEmpty()
   @IsString()
-  phoneNo: string;
+  phone_number: string;
 
   @IsNotEmpty()
   @IsString()
@@ -12,7 +12,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  surname: string;
+  lastname: string;
 
   @IsNotEmpty()
   @IsEnum(type => UserRole)

@@ -16,10 +16,10 @@ export class User extends AbstractEntity {
   firstname: string;
 
   @Column()
-  surname: string;
+  lastname: string;
 
   @Column({ unique: true })
-  phoneNo: string;
+  phone_number: string;
 
   @Column({
     type: 'enum',
@@ -37,16 +37,8 @@ export class User extends AbstractEntity {
   password: string;
 
   constructor(
-    firstname: string,
-    surname: string,
-    role: UserRole,
-    phoneNo: string,
   ) {
     super();
-    this.firstname = firstname;
-    this.surname = surname;
-    this.phoneNo = phoneNo;
-    this.role = role;
   }
 
   public encrypt() {

@@ -26,15 +26,18 @@ export class AuthService {
   ) {}
 
  async createAdmin(credentials: SignUpCredentialsDto){
-    const {firstname, surname, phoneNo, password } = credentials;
+  const {password} = credentials;
 
-    const user = new User(firstname, surname,UserRole.ADMIN, phoneNo);
-    
-    user.salt = await genSalt();
-    user.password = await this.hashPassword(password, user.salt);
+    let user = new User();
+
+    user = Object.assign(user,credentials);
+
+    user.role = UserRole.ADMIN;
+    await user.encrypt()
+    await user.hashPassword(password);
 
     try {
-       await this.userRepo.save(user);
+      return await this.userRepo.save(user);
     } catch (error) {
       if (error.code == '23505') {
         throw new ConflictException('Failed! User exists');
@@ -45,15 +48,18 @@ export class AuthService {
   }
 
   async createUser(credentials:SignUpCredentialsDto){
-     const {firstname, surname, phoneNo, password } = credentials;
+    const {password} = credentials;
 
-    const user = new User(firstname, surname,UserRole.ADMIN, phoneNo);
+    let user = new User();
+
+    user = Object.assign(user,credentials);
     
-    user.salt = await genSalt();
-    user.password = await this.hashPassword(password, user.salt);
+    user.role = UserRole.BOOKING_MANAGER;
+    await user.encrypt()
+    await user.hashPassword(password);
 
     try {
-       await this.userRepo.save(user);
+      return await this.userRepo.save(user);
     } catch (error) {
       if (error.code == '23505') {
         throw new ConflictException('Failed! User exists');
@@ -63,20 +69,20 @@ export class AuthService {
     }
   }
 
-  async signUp(credentials: SignUpCredentialsDto): Promise<void> {
+  async signUp(credentials: SignUpCredentialsDto): Promise<User> {
 
     const users = await this.userService.readAll(1,1);
     if (!users.length) {
-      await this.createAdmin(credentials);
+      return await this.createAdmin(credentials);
     }
     else {
-      await this.createUser(credentials)
+      return await this.createUser(credentials)
     }
   }
 
   async signIn(credentials: SignInCredentialsDto) {
-    const { phoneNo, password } = credentials;
-    const user = await this.userRepo.findOne({where:[{phoneNo}]});
+    const { phone_number, password } = credentials;
+    const user = await this.userRepo.findOne({where:[{phone_number}]});
     if (!user) {
       throw new NotFoundException('Failed! User not found');
     }
@@ -90,13 +96,14 @@ export class AuthService {
 
 
   async resetPassword(credentials: ResetPasswordDto){
-    const { phoneNo, password, newPassword} = credentials;
-    const user = await this.userRepo.findOne({where:[{phoneNo}]});
+    const { phone_number, password, newPassword} = credentials;
+    const user = await this.userRepo.findOne({where:[{phone_number}]});
     if (!user) {
       throw new NotFoundException('Failed! User not found');
     }
-   user.salt = await genSalt()
-   user.password = await this.hashPassword(password, user.salt);
+    
+    await user.encrypt()
+    await user.hashPassword(newPassword);
 
    try {
     await this.userRepo.save(user);
@@ -104,9 +111,5 @@ export class AuthService {
      throw new InternalServerErrorException(error.message);
  }
 
-  }
-
-  async hashPassword(input: string, salt: string): Promise<string> {
-    return hash(input, salt);
   }
 }
