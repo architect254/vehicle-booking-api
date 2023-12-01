@@ -7,13 +7,11 @@ import {
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { compare, hash, genSalt } from 'bcrypt';
 
 import { User } from '../../core/user/user.entity';
 
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { UserRole } from './user.role';
 
 @Injectable()
 export class UserService {
@@ -51,9 +49,10 @@ export class UserService {
   }
 
   async create(payload: CreateUserDto, createdById): Promise<User> {
-    const { firstname, surname, role ,phoneNo } = payload;
 
-    const user = new User(firstname, surname, role, phoneNo);
+    let user = new User();
+
+    user = Object.assign(user,payload);
 
     await user.encrypt();
     await user.hashPassword(`password@1234`);
@@ -67,12 +66,9 @@ export class UserService {
   }
 
   async update(id, payload: UpdateUserDto, updatedById): Promise<User> {
-    const { firstname, surname, phoneNo } = payload;
-    const user: User = await this.read(id);
+    let user: User = await this.read(id);
 
-    user.firstname = firstname || user.firstname;
-    user.surname = surname || user.surname;
-    user.phoneNo = phoneNo || user.phoneNo;
+    user = Object.assign(user,payload);
 
     return await this.save(user);
   }

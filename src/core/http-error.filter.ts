@@ -19,14 +19,14 @@ export class HttpErrorFilter implements ExceptionFilter {
       timestamp: new Date().toLocaleDateString(),
       path: request.url,
       method: request.method,
-      messages: exception.getResponse()['message'] || null,
+      message: exception.getResponse()['message'] || null,
       title: exception.getResponse()['error'],
     };
 
     Logger.error(
-      `${errorResponse.method} | ${errorResponse.path} | ${errorResponse.code} | ${errorResponse.title} | ${errorResponse.messages}`,
+      `HttpErrorFilter`,
+      `${errorResponse.method} | ${errorResponse.path} | ${errorResponse.code} | ${errorResponse.title} | ${errorResponse.message}`,
       exception.stack,
-      'HttpErrorFilter',
     );
 
     response.status(status).json(errorResponse);
