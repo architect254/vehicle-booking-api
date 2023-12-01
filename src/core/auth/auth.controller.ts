@@ -18,13 +18,12 @@ export class AuthController {
     private jwtService: JwtService,
   ) {}
 
-  @HttpCode(HttpStatus.CREATED)
   @Post('/sign-up')
   async signUp(
     @Body()
     payload: SignUpCredentialsDto,
-  ): Promise<void> {
-     this.authService.signUp(payload);
+  ): Promise<User> {
+    return this.authService.signUp(payload);
   }
 
   @Post('/sign-in')

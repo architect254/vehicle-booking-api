@@ -11,6 +11,6 @@ export class SignUpCredentialsDto extends SignInCredentialsDto {
 
   @IsNotEmpty()
   @IsString()
-  surname: string;
+  lastname: string;
   
 }
