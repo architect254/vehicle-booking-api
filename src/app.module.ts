@@ -1,4 +1,5 @@
 import {
+  MiddlewareConsumer,
   Module,
 } from '@nestjs/common';
 
@@ -10,6 +11,7 @@ import { AppService } from './app.service';
 
 import { CoreModule } from './core/core.module';
 import { typeOrmConfig } from './shared/typeorm.config';
+import cors = require('cors');
 
 @Module({
   imports: [
@@ -20,5 +22,12 @@ import { typeOrmConfig } from './shared/typeorm.config';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
+export class AppModule{
+  configure(consumer: MiddlewareConsumer){
+    consumer.apply(cors({
+      origin: (rorg: string, callback:(err:Error, origin:boolean)=> void) =>{
+        callback(null, true)
+      }
+    })).forRoutes(`*`)
+  }
 }
